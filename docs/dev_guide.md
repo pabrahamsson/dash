@@ -14,14 +14,23 @@ The default target in the makefile will build the project binary in the local di
 ```
 $ make
 
-$ ./dash -h
-Usage of ./dash:
-  -i string
-    	Path to Inventory, relative or absolute (shorthand) (default "./")
-  -inventory string
-    	Path to Inventory, relative or absolute (default "./")
-  -version
-    	See version
+$ ./dash
+A fast and extensible automation framework for Kubernetes.
+      We focus on supporting multiple templating engines in one tool, and encouraging declarative resource management.
+      For more info, check out https://github.com/redhat-cop/dash
+
+Usage:
+  dash [command]
+
+Available Commands:
+  help        Help about any command
+  run         Process an inventory of templates and apply it to a cluster.
+  version     Print the version number of Hugo
+
+Flags:
+  -h, --help   help for dash
+
+Use "dash [command] --help" for more information about a command.
 ```
 
 ## Running Tests
