@@ -31,7 +31,7 @@ If you want a stable release, we recommend downloading the appropriate binary fr
 To run, first log into your kubernetes cluster, and:
 
 ```
-dash -i examples/default/
+dash run -i examples/default/
 ```
 
 ## Contribute
