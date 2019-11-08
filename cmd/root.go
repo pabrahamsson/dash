@@ -17,14 +17,11 @@ var (
 	}
 )
 
-func errorOut(cmd *cobra.Command) {
-	cmd.Help()
-	os.Exit(1)
-}
-
+// Execute - entrypoint for CLI tool
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
+		fmt.Println("Exiting")
 		os.Exit(1)
 	}
 }

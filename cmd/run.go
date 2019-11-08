@@ -21,22 +21,25 @@ var (
 		Use:   "run",
 		Short: "Process an inventory of templates and apply it to a cluster.",
 		Long:  `Long version...`,
-		Run: func(cmd *cobra.Command, args []string) {
+		RunE: func(cmd *cobra.Command, args []string) error {
 			var i inv.Inventory
 			var ns string
 
 			yamlFile, err := ioutil.ReadFile(filepath.Join(invPath, "dash.yaml"))
 			if err != nil {
-				fmt.Printf("Error: Couldn't load dash inventory: %v\n\n", err)
-				errorOut(cmd)
+				return fmt.Errorf("Couldn't load inventory: %v\n", err)
 			}
 
-			i.Load(yamlFile, invPath)
+			err = i.Load(yamlFile, invPath)
+			if err != nil {
+				return fmt.Errorf("Failed to load inventory: %v\n", err)
+			}
+
 			err = i.Process(&ns)
 			if err != nil {
-				fmt.Println("Error: " + err.Error())
-				errorOut(cmd)
+				return fmt.Errorf("Failed to process inventory: %v\n", err)
 			}
+			return nil
 		},
 	}
 )

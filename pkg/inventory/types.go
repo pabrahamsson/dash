@@ -1,6 +1,7 @@
 package inventory
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -51,11 +52,11 @@ type Template interface {
 }
 
 // Load marshals a dash.yaml into an Inventory
-func (i *Inventory) Load(yf []byte, pre string) *Inventory {
+func (i *Inventory) Load(yf []byte, pre string) error {
 
 	file, err := ioutil.TempDir("", "dash")
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	defer os.RemoveAll(file)
 
@@ -64,17 +65,17 @@ func (i *Inventory) Load(yf []byte, pre string) *Inventory {
 
 	err = yaml.Unmarshal(yf, &i)
 	if err != nil {
-		log.Fatalf("Unmarshal: %v", err)
+		return fmt.Errorf("Unmarshal: %v", err)
 	}
 
 	err = i.setDefaults()
 	if err != nil {
-		log.Fatalf("Failed setting defaults: %v", err)
+		return fmt.Errorf("Failed setting defaults: %v", err)
 	}
 
 	log.Print(i)
 
-	return i
+	return nil
 }
 
 func (i *Inventory) setDefaults() error {
