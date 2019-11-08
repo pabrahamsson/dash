@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -20,8 +19,6 @@ var (
 // Execute - entrypoint for CLI tool
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		fmt.Println("Exiting")
 		os.Exit(1)
 	}
 }
