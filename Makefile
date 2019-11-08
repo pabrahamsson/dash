@@ -17,7 +17,7 @@ COMPRESSED_EXECUTABLE_TARGETS=$(COMPRESSED_EXECUTABLES:%=bin/%)
 
 UPLOAD_CMD = github-release upload -u $(USER) -r $(EXECUTABLE) -t $(LAST_TAG) -n $(subst /,-,$(FILE)) -f bin/$(FILE)
 
-BUILD_ARGS = -ldflags "-X main.version=$(LAST_TAG)"
+BUILD_ARGS = -ldflags "-X github.com/$(USER)/$(EXECUTABLE)/cmd.Version=$(LAST_TAG)"
 
 all: $(EXECUTABLE)
 
