@@ -14,7 +14,7 @@ resource_groups:
     resources:
       - name:  Go Template
         goTemplate:
-          template: templates/service.tpl
+          template: go-templates/service.tpl
           params:
             name: dash-nginx
             ports:

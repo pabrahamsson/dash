@@ -106,7 +106,7 @@ func (r *Resource) Process(ns *string) error {
                 if err != nil {
                         return err
                 }
-        }
+	}
 
 	return nil
 }
