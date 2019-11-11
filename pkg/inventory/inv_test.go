@@ -10,6 +10,20 @@ version: 3.0
 args:
   - --dry-run
 resource_groups:
+  - name: Go Templates
+    resources:
+      - name:  Go Template
+        goTemplate:
+          template: templates/service.tpl
+          params:
+            name: dash-nginx
+            ports:
+              - port: 8080
+                portName: http
+                targetPort: 80
+              - port: 8443
+                portName: https
+                targetPort: 443
   - name: Default Resources
     resources:
       - name: Raw Manifests

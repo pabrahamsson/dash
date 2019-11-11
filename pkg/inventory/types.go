@@ -43,6 +43,7 @@ type Resource struct {
 	File              FileTemplate      `yaml:"file"`
 	Helm              HelmChart         `yaml:"helm"`
 	OpenShiftTemplate OpenShiftTemplate `yaml:"openshiftTemplate"`
+	GoTemplate        GoTemplate        `yaml:"goTemplate"`
 }
 
 // Template is anything that can be preprocessed

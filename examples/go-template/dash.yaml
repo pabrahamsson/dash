@@ -1,0 +1,16 @@
+version: 3.0
+resource_groups:
+  - name: Default Resources
+    resources:
+    - name: Go Templates
+      goTemplate:
+        template: templates/service.tpl
+        params:
+          name: dash-nginx
+          ports:
+          - port: 8080
+            portName: http
+            targetPort: 80
+          - port: 8443
+            portName: https
+            targetPort: 443

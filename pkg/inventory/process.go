@@ -101,7 +101,12 @@ func (r *Resource) Process(ns *string) error {
 		if err != nil {
 			return err
 		}
-	}
+	} else if !reflect.DeepEqual(GoTemplate{}, r.GoTemplate) {
+                err := r.GoTemplate.Process(ns, r)
+                if err != nil {
+                        return err
+                }
+        }
 
 	return nil
 }
