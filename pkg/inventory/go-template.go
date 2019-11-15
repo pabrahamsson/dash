@@ -5,13 +5,13 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-        "text/template"
+	"text/template"
 )
 
 
 type GoTemplate struct {
 	Template string               `yaml:"template"`
-        Params map[string]interface{} `yaml:"params"`
+	Params map[string]interface{} `yaml:"params"`
 }
 
 func (gt *GoTemplate) Process(ns *string, r *Resource) error {
@@ -24,9 +24,9 @@ func (gt *GoTemplate) Process(ns *string, r *Resource) error {
 	gt.Template = abs
 
 	fmt.Printf("Found template %s and one set of params\n", gt.Template)
-        ext := filepath.Ext(gt.Template)
-        basename := baseName(gt.Template, ext)
-        err = processOneGoTemplate(gt.Template, gt.Params, r, basename + ".yml")
+	ext := filepath.Ext(gt.Template)
+	basename := baseName(gt.Template, ext)
+	err = processOneGoTemplate(gt.Template, gt.Params, r, basename + ".yaml")
 	if err != nil {
 		return err
 	}
@@ -36,13 +36,13 @@ func (gt *GoTemplate) Process(ns *string, r *Resource) error {
 
 func processOneGoTemplate(tpl string, ps map[string]interface{}, r *Resource, outName string) error {
 	if outName == "" {
-		outName = filepath.Base(tpl) + ".yml"
+		outName = filepath.Base(tpl) + ".yaml"
 	}
 
-        t, err := template.ParseFiles(tpl)
-        if err != nil {
-                log.Fatal(err)
-        }
+	t, err := template.ParseFiles(tpl)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// write resulting resource to file
 	outputDir := filepath.Join(r.Output, r.Action)
@@ -56,7 +56,7 @@ func processOneGoTemplate(tpl string, ps map[string]interface{}, r *Resource, ou
 		}
 	}()
 	log.Printf("wrote %s\n", out.Name())
-        err = t.Execute(out, ps)
+	    err = t.Execute(out, ps)
 	if err != nil {
 		return err
 	}
@@ -65,6 +65,6 @@ func processOneGoTemplate(tpl string, ps map[string]interface{}, r *Resource, ou
 }
 
 func baseName(filename string, extension string) string {
-        basename := filepath.Base(filename[0:len(filename)-len(extension)])
-        return basename
+	basename := filepath.Base(filename[0:len(filename)-len(extension)])
+	return basename
 }
