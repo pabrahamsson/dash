@@ -12,7 +12,7 @@ import (
 )
 
 // Process Inventory of ResourceGroups
-func (i *Inventory) Process(ns *string) error {
+func (i *Inventory) Process(ns *string, dr *bool) error {
 
 	// create a temp directory for resources
 	output_dir := filepath.Clean(i.Output)
@@ -37,7 +37,7 @@ func (i *Inventory) Process(ns *string) error {
 				return err
 			}
 
-			err = rg.Reconcile(ns, i.Args)
+			err = rg.Reconcile(ns, i.Args, dr)
 			if err != nil {
 				return err
 			}
@@ -107,7 +107,7 @@ func (r *Resource) Process(ns *string) error {
 }
 
 // Reconcile ensures all generated resources are applied via the appropriate verb
-func (rg *ResourceGroup) Reconcile(ns *string, args []string) error {
+func (rg *ResourceGroup) Reconcile(ns *string, args []string, dr *bool) error {
 
 	applyP := rg.Output + "/apply"
 	applyAbs, err := filepath.Abs(applyP)
@@ -121,6 +121,9 @@ func (rg *ResourceGroup) Reconcile(ns *string, args []string) error {
 	if *ns != "" {
 		cmdArgs = append(cmdArgs, "-n", *ns)
 	}
+	if *dr {
+		cmdArgs = append(cmdArgs, "--dry-run", "-o", "yaml")
+	}
 
 	cmd := exec.Command("kubectl", cmdArgs...)
 	log.Printf("Running command: %s\n", cmd.Args)
@@ -129,7 +132,11 @@ func (rg *ResourceGroup) Reconcile(ns *string, args []string) error {
 		log.Fatalf("%s\n", stdoutStderr)
 		return err
 	}
-	fmt.Printf("%s\n", stdoutStderr)
+	if *dr {
+		fmt.Printf("---\n%s\n", stdoutStderr)
+	} else {
+		fmt.Printf("%s\n", stdoutStderr)
+	}
 
 	return nil
 

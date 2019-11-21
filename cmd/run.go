@@ -10,11 +10,14 @@ import (
 )
 
 const (
+	invDryRunDefault = false
+	invDryRunUsage = "If true, only print the object that would be sent, without sending it"
 	invPathDefault = "."
 	invPathUsage   = "Path to Inventory, relative or absolute"
 )
 
 var (
+	invDryRun bool
 	invPath string
 
 	runCmd = &cobra.Command{
@@ -35,7 +38,7 @@ var (
 				return fmt.Errorf("Failed to load inventory: %v\n", err)
 			}
 
-			err = i.Process(&ns)
+			err = i.Process(&ns, &invDryRun)
 			if err != nil {
 				return fmt.Errorf("Failed to process inventory: %v\n", err)
 			}
@@ -46,5 +49,6 @@ var (
 
 func init() {
 	runCmd.Flags().StringVarP(&invPath, "inventory", "i", invPathDefault, invPathUsage)
+	runCmd.Flags().BoolVarP(&invDryRun, "dry-run", "", invDryRunDefault, invDryRunUsage)
 	rootCmd.AddCommand(runCmd)
 }
