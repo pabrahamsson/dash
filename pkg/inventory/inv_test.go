@@ -7,8 +7,6 @@ import (
 
 var testInv = `
 version: 3.0
-args:
-  - --dry-run
 resource_groups:
   - name: Default Resources
     resources:
@@ -131,13 +129,15 @@ func TestAction(t *testing.T) {
 
 func TestProcess(t *testing.T) {
 	namespace := ""
-	err := i.Process(&namespace)
+	dryRun := true
+	err := i.Process(&namespace, &dryRun)
 	if err != nil {
 		t.Errorf("Process failed, %v", err)
 	}
 
 	namespace = "dash-inv-test"
-	err = i.Process(&namespace)
+	dryRun = true
+	err = i.Process(&namespace, &dryRun)
 	if err != nil {
 		t.Errorf("Process failed, %v", err)
 	}
